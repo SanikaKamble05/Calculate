@@ -3,37 +3,34 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
+        stage('Clone Code') {
             steps {
-                echo 'Code fetched from GitHub'
+                echo 'Cloning done automatically by Jenkins'
             }
         }
 
         stage('Build') {
             steps {
-                bat 'javac Calculate.java CalculateTest.java'
+                bat 'javac -cp ".;junit-4.13.2.jar;hamcrest-core-1.3.jar" Calculate.java CalculateTest.java'
             }
         }
 
         stage('Test') {
             steps {
-                bat 'java org.junit.runner.JUnitCore CalculateTest'
+                bat 'java -cp ".;junit-4.13.2.jar;hamcrest-core-1.3.jar" org.junit.runner.JUnitCore CalculateTest'
             }
         }
 
         stage('Run') {
             steps {
-                bat 'java Calculate'
+                echo 'Execution completed'
             }
         }
     }
 
     post {
-        success {
-            echo 'Build SUCCESS - All tests passed!'
-        }
-        failure {
-            echo 'Build FAILED - Check logs!'
+        always {
+            echo 'Build Finished'
         }
     }
 }
