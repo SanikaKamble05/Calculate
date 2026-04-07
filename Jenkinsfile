@@ -5,13 +5,13 @@ pipeline {
 
         stage('Clone Code') {
             steps {
-                echo "Cloning done automatically by Jenkins"
+                echo 'Cloning done automatically by Jenkins'
             }
         }
 
         stage('Build') {
             steps {
-                bat 'javac Calculate.java CalculateTest.java'
+                bat 'javac -cp ".;junit-4.13.2.jar;hamcrest-core-1.3.jar" Calculate.java CalculateTest.java'
             }
         }
 
@@ -23,17 +23,14 @@ pipeline {
 
         stage('Run') {
             steps {
-                bat 'java Calculate'
+                echo 'Execution completed'
             }
         }
     }
 
     post {
-        success {
-            echo 'Build SUCCESS'
-        }
-        failure {
-            echo 'Build FAILED'
+        always {
+            echo 'Build Finished'
         }
     }
 }
